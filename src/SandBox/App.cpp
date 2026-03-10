@@ -37,11 +37,17 @@
 #include "Geometry.h"
 #include "Component/MeshComponent.h"
 
+#include "CamSwapSystem.h"
+
 void App::Initialize(GameManager* _gameManager)
 {
 	SystemManager* systemManager = _gameManager->GSystemManager();
+	CamSwapSystem* camSwapSystem = new CamSwapSystem();
 	systemManager->AddSystem(new MovementSystem());
 	systemManager->AddSystem(new ProjectilSystem());
+	systemManager->AddSystem(camSwapSystem);
+
+
 	//init meshs and texture
 	Geometry m_geometry2;
 	m_geometry2.BuildPlane(5, 5);
@@ -66,6 +72,7 @@ void App::Initialize(GameManager* _gameManager)
 	m_texture = _gameManager->GRenderEngine()->LoadTexture(L"../../res/Render/Test.dds");
 	//camera 
 	uint32 Cameraid = _gameManager->GNewEntityId();
+	camSwapSystem->playerid = Cameraid;
 	TransformComponent* transform = _gameManager->GComponentManager()->AddComponent<TransformComponent>(Cameraid);
 	transform->localTransform.position = Vector3f(5, -9, 0);
 	CameraComponent* camera = _gameManager->GComponentManager()->AddComponent<CameraComponent>(Cameraid);
@@ -91,7 +98,6 @@ void App::Initialize(GameManager* _gameManager)
 	input->actions.push_back(SlowDown);
 	input->actions.push_back(Mouselock);
 	input->actions.push_back(SpeedUp);
-	input->actions.push_back(SpawnProjectil);
 
 	input->conditions.push_back({ Condition::DOWN, 'W', 2 });
 	input->conditions.push_back({ Condition::DOWN, 'Z', 2 });
@@ -108,7 +114,6 @@ void App::Initialize(GameManager* _gameManager)
 	input->conditions.push_back({ Condition::DOWN, 'P', 10 });
 	input->conditions.push_back({ Condition::PRESSED, VK_ESCAPE, 11 });
 	input->conditions.push_back({ Condition::DOWN, 'O', 12 });
-	input->conditions.push_back({ Condition::PRESSED, VK_LBUTTON,13 });
 	}
 
 	LightComponent* light = _gameManager->GComponentManager()->AddComponent<LightComponent>(Cameraid);
@@ -240,29 +245,6 @@ void App::Initialize(GameManager* _gameManager)
 	image->texture = test;
 	uiTransformTest->anchoredPosition = { 100,100 };
 	
-	/*id = _gameManager->GNewEntityId();
-	PostProcessComponent* postProcess = _gameManager->GComponentManager()->AddComponent<PostProcessComponent>(id);
-	postProcess->isActive = true;
-	postProcess->shaderPath = new WString(L"../../res/Shaders/Contrast.hlsl");
-	postProcess->params0 = { 0.9f, 0, 0, 0 };
-	postProcess->postProcessResource = _gameManager->GRenderEngine()->CreatePostProcessSystem();
-	Font* arial = new Font;*/
-
-	/*id = _gameManager->GNewEntityId();
-	PostProcessComponent* postProcess = _gameManager->GComponentManager()->AddComponent<PostProcessComponent>(id);
-	postProcess->isActive = true;
-	postProcess->shaderPath = new WString(L"../../res/Shaders/Saturation.hlsl");
-	postProcess->params0 = { .5f, 0, 0, 0 };
-	postProcess->postProcessResource = _gameManager->GRenderEngine()->CreatePostProcessSystem();
-	Font* arial = new Font;*/
-
-	/*id = _gameManager->GNewEntityId();
-	PostProcessComponent* postProcess = _gameManager->GComponentManager()->AddComponent<PostProcessComponent>(id);
-	postProcess->isActive = true;
-	postProcess->shaderPath = new WString(L"../../res/Shaders/Luminosity.hlsl");
-	postProcess->params0 = { 10.f, 0, 0, 0 };
-	postProcess->postProcessResource = _gameManager->GRenderEngine()->CreatePostProcessSystem();*/
-	
 	uint32 celId = _gameManager->GNewEntityId();
 	PostProcessComponent* postProcessCelShading = _gameManager->GComponentManager()->AddComponent<PostProcessComponent>(celId);
 	postProcessCelShading->isActive = true;
@@ -300,6 +282,8 @@ void App::Initialize(GameManager* _gameManager)
 	ppBlur2->zOrder = 3;
 	ppBlur2->postProcessResource = _gameManager->GRenderEngine()->CreatePostProcessSystem();
 	ppBlur2->isActive = false; // Désactive le flou au départ
+
+	camSwapSystem->Init(_gameManager);
 }
 App::~App()
 {

@@ -209,8 +209,10 @@ void RenderEngine::InitMesh(Mesh& _mesh,Geometry _geo)
 	_mesh.BuildGeometry(_geo);
 	m_commandContext->GCommandAllocator()->Reset();
 	m_commandContext->GCommandList()->Reset(m_commandContext->GCommandAllocator(), nullptr);
-	_mesh.Upload(m_renderDevice->GDevice(), m_commandContext->GCommandList());
+	bool check = _mesh.Upload(m_renderDevice->GDevice(), m_commandContext->GCommandList());
 	m_commandContext->CloseAndExecute(m_queue);
+
+	Log(check, "Uploading Mesh");
 }
 
 void RenderEngine::BeginDraw()

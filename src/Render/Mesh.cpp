@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "Mesh.h"
-#include "Geometry.h"
 #include "CommandContext.h"
 
 size_t Mesh::GetIndexCount() const

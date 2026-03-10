@@ -45,8 +45,12 @@ void MovementSystem::Update(GameManager* _gameManager)
 		TransformComponent* transform = m_componentManager->GComponent<TransformComponent>(entityId);
 		if (transform == nullptr)
 			continue;
-		float pitch = std::clamp(mouseDelta.y, -89.0f, 89.0f);
-		transform->localTransform.AddYPR(mouseDelta.x * m_sensitivity, pitch * m_sensitivity, 0);
+		m_yaw += mouseDelta.x * m_sensitivity;
+		m_pitch += mouseDelta.y * m_sensitivity;
+
+		m_pitch = std::clamp(m_pitch, -89.0f, 89.0f);
+
+		transform->localTransform.SWorldRotation(m_yaw, m_pitch, 0);
 
 		m_previousMousePos = currentMousePos;
 

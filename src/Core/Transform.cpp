@@ -56,6 +56,42 @@ void Transform::SYPR(float _yaw, float _pitch, float _roll)
 	AddYPR(_yaw, _pitch, _roll);
 }
 
+void Transform::AddWorldRotation(float _yaw, float _pitch, float _roll)
+{
+	XVector q = XMLoadFloat4(&quaternion);
+
+	XVector worldUp = DirectX::XMVectorSet(0, 1, 0, 0);
+	XVector worldRight = DirectX::XMVectorSet(1, 0, 0, 0);
+	XVector worldForward = DirectX::XMVectorSet(0, 0, 1, 0);
+
+	if (_yaw != 0.0f)
+		q = DirectX::XMQuaternionMultiply(DirectX::XMQuaternionRotationAxis(worldUp, _yaw), q);
+
+	if (_pitch != 0.0f)
+		q = DirectX::XMQuaternionMultiply(DirectX::XMQuaternionRotationAxis(worldRight, _pitch), q);
+
+	if (_roll != 0.0f)
+		q = DirectX::XMQuaternionMultiply(DirectX::XMQuaternionRotationAxis(worldForward, _roll), q);
+
+	q = DirectX::XMQuaternionNormalize(q);
+	XMStoreFloat4(&quaternion, q);
+
+	Matrix rot = DirectX::XMMatrixRotationQuaternion(q);
+	XMStoreFloat4x4(&rotmatrix, rot);
+
+	XMStoreFloat3(&right, rot.r[0]);
+	XMStoreFloat3(&up, rot.r[1]);
+	XMStoreFloat3(&forward, rot.r[2]);
+}
+
+void Transform::SWorldRotation(float _yaw, float _pitch, float _roll)
+{
+	quaternion = { 0,0,0,1 };
+	XMStoreFloat4x4(&rotmatrix, DirectX::XMMatrixIdentity());
+
+	AddWorldRotation(_yaw, _pitch, _roll);
+}
+
 Matrix Transform::BuildMatrix() const
 {
 

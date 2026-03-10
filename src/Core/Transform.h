@@ -12,6 +12,9 @@ public:
 	void AddYPR(float _yaw, float _pitch, float _roll);
 	void SYPR(float _yaw, float _pitch, float _roll);
 
+	void AddWorldRotation(float _yaw, float _pitch, float _roll);
+	void SWorldRotation(float _yaw, float _pitch, float _roll);
+
 	Matrix BuildMatrix() const;
 
 	void SPosition(float _x, float _y, float _z);

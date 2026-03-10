@@ -17,5 +17,8 @@ private:
 	Vector2i m_previousMousePos = {-1,-1};
 
 	bool visibleMouse = true;
+
+	float m_yaw = 0.0f;
+	float m_pitch = 0.0f;
 };
 

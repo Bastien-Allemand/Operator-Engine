@@ -6,7 +6,7 @@ InputManager* InputManager::m_instance = nullptr;
 
 InputManager::InputManager()
 {
-    DebugMsg(L"InputManager Singleton Created", DebugFlag::LOG);
+	_Log("InputManager created");
 }
 
 InputManager* InputManager::GInstance()

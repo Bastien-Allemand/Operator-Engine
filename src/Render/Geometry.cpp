@@ -2,7 +2,7 @@
 #include "Geometry.h"
 #include <DirectXColors.h>
 
-void Geometry::BuildBox(uint32 _width, uint32 _height, uint32 _length, Vector4f _color)
+void Geometry::BuildBox(float _width, float _height, float _length, Vector4f _color)
 {
     vertices = nullptr;
     indices = nullptr;
@@ -125,7 +125,7 @@ void Geometry::BuildSphere(uint32 _sliceCount, uint32 _stackCount,float _radius,
 	indexCount = idx;
 }
 
-void Geometry::BuildPlane(uint32 _width, uint32 _length, Vector4f _color)
+void Geometry::BuildPlane(float _width, float _length, Vector4f _color)
 {
     // Allocation directe pour 4 vertices et 6 indices
     vertices = new Vertex[4];
@@ -164,7 +164,7 @@ void Geometry::BuildPlane(uint32 _width, uint32 _length, Vector4f _color)
 	indexCount = idx;
 }
 
-void Geometry::BuildCylinder(uint32 _sliceCount, uint32 _height, Vector4f _color)
+void Geometry::BuildCylinder(uint32 _sliceCount, float _height, Vector4f _color)
 {
     // 2 cercles (bas et haut) × _sliceCount vertices
     vertexCount = _sliceCount * 2;
