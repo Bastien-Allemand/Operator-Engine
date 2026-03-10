@@ -15,6 +15,8 @@ public:
 	void AddWorldRotation(float _yaw, float _pitch, float _roll);
 	void SWorldRotation(float _yaw, float _pitch, float _roll);
 
+	void SrotMatrix(const Matrix4x4f& _rotMatrix);
+
 	Matrix BuildMatrix() const;
 
 	void SPosition(float _x, float _y, float _z);

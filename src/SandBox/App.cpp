@@ -282,8 +282,6 @@ void App::Initialize(GameManager* _gameManager)
 	ppBlur2->zOrder = 3;
 	ppBlur2->postProcessResource = _gameManager->GRenderEngine()->CreatePostProcessSystem();
 	ppBlur2->isActive = false; // Désactive le flou au départ
-
-	camSwapSystem->Init(_gameManager);
 }
 App::~App()
 {

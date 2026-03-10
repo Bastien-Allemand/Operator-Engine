@@ -92,6 +92,19 @@ void Transform::SWorldRotation(float _yaw, float _pitch, float _roll)
 	AddWorldRotation(_yaw, _pitch, _roll);
 }
 
+void Transform::SrotMatrix(const Matrix4x4f& _rotMatrix)
+{
+	rotmatrix = _rotMatrix;
+	XVector xAxis = XMLoadFloat3(&right);
+	XVector yAxis = XMLoadFloat3(&up);
+	XVector zAxis = XMLoadFloat3(&forward);
+	Matrix rot = XMLoadFloat4x4(&rotmatrix);
+	XMStoreFloat3(&right, rot.r[0]);
+	XMStoreFloat3(&up, rot.r[1]);
+	XMStoreFloat3(&forward, rot.r[2]);
+	DirectX::XMStoreFloat4(&quaternion,DirectX::XMQuaternionRotationMatrix(rot));
+}
+
 Matrix Transform::BuildMatrix() const
 {
 
