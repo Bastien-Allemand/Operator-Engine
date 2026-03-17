@@ -8,12 +8,16 @@
 #include <cstdint>
 #include <array>
 #include <unordered_map>
+#include <list>
+
 
 #define RESET   "\033[0m"
 #define RED     "\033[31m"
 #define GREEN   "\033[32m"
 #define CYAN    "\033[36m"
 #define BOLD    "\033[1m"
+
+inline constexpr float PI = 3.14159f;
 
 using int8 = std::int8_t;
 using int16 = std::int16_t;
@@ -188,6 +192,9 @@ using WString = std::wstring;
 
 template<typename T>
 using Vector = std::vector<T>;
+
+template <class T>
+using List = std::list<T>;
 
 template<typename Key, typename Value>
 using UnOrderedMap = std::unordered_map<Key, Value>;
