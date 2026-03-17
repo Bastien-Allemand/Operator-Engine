@@ -3,7 +3,7 @@
 #include "Geometry.h"
 #include "ObjLoader.h"
 
-Geometry* GeometryFactory::LoadGeometry(WString const path)
+Geometry* GeometryFactory::LoadGeometry(String const path)
 {
 	Geometry* customGeo = nullptr;
 
@@ -19,9 +19,9 @@ Geometry* GeometryFactory::LoadGeometry(WString const path)
 		for (obj::Vertex& v : obj.vertices)
 		{
 			Vertex ve;
-			ve.pos = { v.position.x, v.position.y, v.position.z };
+			ve.pos = { v.pos.x, v.pos.y, v.pos.z };
 			ve.normal = { v.normal.x, v.normal.y, v.normal.z };
-			ve.tex = { v.textureCoordinate.x, v.textureCoordinate.y };
+			ve.tex = { v.tex.x, v.tex.y };
 			vertices.push_back(ve);
 		}
 		for (uint32 index : obj.meshs[i].indices)
